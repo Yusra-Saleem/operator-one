@@ -1,3 +1,12 @@
+---
+title: Operator One Voice AI Backend
+emoji: ⚡
+colorFrom: purple
+colorTo: indigo
+sdk: docker
+app_port: 7860
+---
+
 # Operation One — Enterprise Voice AI Business Operations Platform
 
 **Operation One** is a commercial-grade, voice-first business operations manager powered by FastAPI, Supabase, and the official OpenAI Agents SDK.
