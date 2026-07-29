@@ -115,15 +115,15 @@ export const WorkflowMonitoringView: React.FC = () => {
   };
 
   return (
-    <div className="surface p-5 sm:p-6 rounded-xl space-y-4">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 pb-4 gap-3">
+    <div className="surface p-4 sm:p-6 rounded-xl space-y-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 pb-3.5 gap-2.5">
         <div>
-          <div className="flex items-center gap-2.5">
-            <h3 className="font-display font-bold text-sm text-slate-900">Automated Business Tasks</h3>
+          <div className="flex flex-wrap items-center gap-2">
+            <h3 className="font-display font-bold text-sm sm:text-base text-slate-900">Automated Business Tasks</h3>
             {currentTime && (
-              <span className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-purple-50 border border-purple-200 text-purple-950 text-[10px] font-mono font-semibold shadow-2xs">
+              <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-purple-50 border border-purple-200 text-purple-950 text-[10px] font-mono font-semibold shadow-2xs">
                 <span className="w-1.5 h-1.5 rounded-full bg-purple-900 animate-ping" />
-                <span>Live Clock: {currentTime}</span>
+                <span className="truncate max-w-[170px] sm:max-w-none">Live Clock: {currentTime}</span>
               </span>
             )}
           </div>
@@ -131,21 +131,21 @@ export const WorkflowMonitoringView: React.FC = () => {
         </div>
         <button
           onClick={openNewModal}
-          className="px-3.5 py-1.5 bg-purple-900 hover:bg-purple-950 text-white rounded-lg font-semibold text-xs transition-all shadow-xs self-start sm:self-auto"
+          className="px-2.5 py-1 bg-purple-900 hover:bg-purple-950 text-white rounded-md font-semibold text-[11px] transition-all shadow-xs self-start sm:self-auto shrink-0"
         >
           + Trigger Workflow
         </button>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-2.5">
         {workflows.map((wf) => (
-          <div key={wf.id} className="p-4 bg-slate-50/50 border border-slate-200 rounded-lg space-y-3 text-xs hover:bg-white transition-all">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="font-mono font-bold text-slate-900">{wf.id}</span>
-                <span className="font-semibold text-slate-900">{wf.name}</span>
+          <div key={wf.id} className="p-3 sm:p-4 bg-slate-50/50 border border-slate-200 rounded-xl space-y-2 text-xs hover:bg-white transition-all">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="font-mono font-bold text-slate-900 shrink-0">{wf.id}</span>
+                <span className="font-semibold text-slate-900 truncate">{wf.name}</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 self-start sm:self-auto shrink-0">
                 <span
                   className={`px-2 py-0.5 rounded text-[10px] font-mono font-semibold border ${
                     wf.status === "Completed"
@@ -178,8 +178,8 @@ export const WorkflowMonitoringView: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex items-center justify-between text-slate-500 text-[11px]">
-              <span>Triggered by: <strong>{wf.triggered_by}</strong></span>
+            <div className="flex items-center justify-between text-slate-500 text-[10px] sm:text-[11px]">
+              <span>Triggered by: <strong className="text-slate-800">{wf.triggered_by}</strong></span>
               <span className="font-mono text-slate-400">{wf.start_time}</span>
             </div>
 
@@ -193,6 +193,7 @@ export const WorkflowMonitoringView: React.FC = () => {
           </div>
         ))}
       </div>
+
 
       {/* Add / Edit Workflow Modal */}
       {showModal && (

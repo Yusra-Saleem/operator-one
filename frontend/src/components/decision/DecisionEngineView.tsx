@@ -120,24 +120,25 @@ export const DecisionEngineView: React.FC = () => {
     <div className="space-y-6">
       {/* Risk Header Overview */}
       <div className="surface p-5 sm:p-6 rounded-xl space-y-5">
-        <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 pb-4 gap-3">
           <div>
             <h3 className="font-display font-bold text-base text-slate-900">Smart AI Business Advice</h3>
             <p className="text-xs text-slate-500 mt-0.5">Get AI-generated suggestions to increase sales, prevent stock delays, and reduce business risks.</p>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 self-start sm:self-auto">
             <button
               onClick={openNewRecModal}
-              className="px-3.5 py-1.5 bg-purple-900 hover:bg-purple-950 text-white rounded-md text-xs font-semibold transition-all shadow-2xs"
+              className="px-3 py-1.5 bg-purple-900 hover:bg-purple-950 text-white rounded-lg text-xs font-semibold transition-all shadow-2xs whitespace-nowrap"
             >
-              + Create Recommendation
+              + Add Directive
             </button>
             <div className="text-right">
-              <span className="text-2xl font-display font-bold text-purple-900">{data.overall_risk_score} / 100</span>
+              <span className="text-xl sm:text-2xl font-display font-bold text-purple-900">{data.overall_risk_score} / 100</span>
               <p className="text-[10px] text-slate-400 uppercase font-mono font-medium">Risk Index Score</p>
             </div>
           </div>
         </div>
+
 
         {/* Predictive Recommendations */}
         <div className="space-y-3 pt-2">
@@ -145,14 +146,14 @@ export const DecisionEngineView: React.FC = () => {
             AI & Manual Decision Directives ({recommendations.length})
           </h4>
           {recommendations.map((rec) => (
-            <div key={rec.id} className="p-4 bg-slate-50/50 border border-slate-200 rounded-lg space-y-3 text-xs hover:bg-white transition-all">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="font-bold text-sm text-slate-900">{rec.title}</span>
-                  <span className="text-[10px] font-mono text-slate-400">[{rec.id}]</span>
+            <div key={rec.id} className="p-3.5 sm:p-4 bg-slate-50/50 border border-slate-200 rounded-xl space-y-2.5 text-xs hover:bg-white transition-all">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="font-bold text-xs sm:text-sm text-slate-900 leading-tight truncate">{rec.title}</span>
+                  <span className="text-[10px] font-mono text-slate-400 shrink-0">[{rec.id}]</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-purple-100 text-purple-950 border border-purple-200">
+                <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-purple-100 text-purple-950 border border-purple-200 whitespace-nowrap">
                     {(rec.confidence_score * 100).toFixed(0)}% Confidence
                   </span>
                   <button
@@ -175,15 +176,15 @@ export const DecisionEngineView: React.FC = () => {
                   </button>
                 </div>
               </div>
-              <p className="text-slate-600"><strong>Rationale:</strong> {rec.explanation}</p>
-              <div className="p-3 bg-purple-100/70 border border-purple-200 rounded-md text-purple-950 font-medium">
+              <p className="text-slate-600 text-xs"><strong>Rationale:</strong> {rec.explanation}</p>
+              <div className="p-2.5 sm:p-3 bg-purple-100/70 border border-purple-200 rounded-lg text-purple-950 font-medium text-xs">
                 <strong className="text-purple-900">Suggested Action:</strong> {rec.suggested_action}
               </div>
-              <div className="flex items-center justify-between pt-1 text-[11px] text-slate-500">
-                <span>Estimated Impact: <strong>{rec.impact_estimate}</strong></span>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-1 text-[11px] text-slate-500">
+                <span className="truncate">Estimated Impact: <strong className="text-slate-800">{rec.impact_estimate}</strong></span>
                 <button
                   onClick={() => alert(`Executed decision directive: ${rec.title}`)}
-                  className="px-3 py-1 bg-purple-900 hover:bg-purple-950 text-white rounded font-medium text-[11px] transition-all shadow-2xs"
+                  className="px-3 py-1.5 bg-purple-900 hover:bg-purple-950 text-white rounded-md font-medium text-[11px] transition-all shadow-2xs self-start sm:self-auto"
                 >
                   Execute Action
                 </button>
@@ -192,6 +193,7 @@ export const DecisionEngineView: React.FC = () => {
           ))}
         </div>
       </div>
+
 
       {/* Add / Edit Recommendation Modal */}
       {showModal && (

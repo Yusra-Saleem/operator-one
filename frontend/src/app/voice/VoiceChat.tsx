@@ -326,9 +326,9 @@ export const VoiceChat: React.FC = () => {
   };
 
   return (
-    <div className="voice-chat-container flex flex-col h-[520px] justify-between space-y-2.5">
+    <div className="voice-chat-container flex flex-col h-[70vh] sm:h-[520px] justify-between space-y-2">
       {/* High-Capacity Large Container with Vertically Compact Message Cards */}
-      <div className="flex-1 overflow-y-auto p-3 space-y-1.5 bg-slate-50/70 border border-slate-200 rounded-xl scrollbar-thin">
+      <div className="flex-1 overflow-y-auto p-2.5 sm:p-3 space-y-1.5 bg-slate-50/70 border border-slate-200 rounded-xl scrollbar-thin">
         {history.map((msg, idx) => (
           <div
             key={idx}
@@ -341,7 +341,7 @@ export const VoiceChat: React.FC = () => {
               {msg.time && <span className="text-[9px] font-mono text-slate-300">· {msg.time}</span>}
             </div>
             <div
-              className={`px-3 py-2 rounded-lg text-[11px] leading-relaxed max-w-[88%] shadow-2xs font-sans whitespace-pre-wrap ${
+              className={`px-3 py-2 rounded-lg text-[11px] leading-relaxed max-w-[92%] sm:max-w-[88%] shadow-2xs font-sans whitespace-pre-wrap ${
                 msg.role === "user"
                   ? "bg-purple-950 text-white rounded-tr-xs font-medium"
                   : "bg-white border border-slate-200 text-slate-800 rounded-tl-xs"
@@ -351,6 +351,7 @@ export const VoiceChat: React.FC = () => {
             </div>
           </div>
         ))}
+
 
         {listening && (
           <div className="flex items-center gap-2 px-2.5 py-1.5 bg-purple-100/70 border border-purple-200 text-purple-950 rounded-lg rounded-tl-xs text-[11px] font-mono animate-pulse w-max">

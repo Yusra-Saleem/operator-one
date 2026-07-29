@@ -149,56 +149,57 @@ export const ExecutiveOverview: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3.5 sm:space-y-4">
       {/* Header Summary Greeting */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 pb-3">
         <div>
           <span className="eyebrow text-[10px]">Operations Briefing</span>
-          <h1 className="display-heading text-xl sm:text-2xl font-bold text-slate-900 mt-0.5">
+          <h1 className="display-heading text-lg sm:text-xl font-bold text-slate-900 mt-0.5">
             Executive Summary Overview
           </h1>
         </div>
-        <div className="flex items-center gap-2 self-start sm:self-auto">
+        <div className="flex flex-wrap items-center gap-1.5 self-start sm:self-auto">
           <button
             onClick={handleExportPDF}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-purple-950 hover:bg-purple-900 text-white rounded-lg text-xs font-bold transition-all shadow-xs"
+            className="flex items-center gap-1 px-2.5 py-1 bg-purple-950 hover:bg-purple-900 text-white rounded-md text-[11px] font-bold transition-all shadow-xs"
           >
             Export PDF
           </button>
           <button
             onClick={handleExportCSV}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-lg text-xs font-semibold transition-all shadow-2xs"
+            className="flex items-center gap-1 px-2.5 py-1 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-md text-[11px] font-semibold transition-all shadow-2xs"
           >
             Export Excel
           </button>
-          <div className="flex items-center gap-2 text-xs text-slate-600 bg-white px-2.5 py-1.5 rounded-lg border border-slate-200 shadow-2xs">
+          <div className="hidden xs:flex items-center gap-1.5 text-[10px] text-slate-600 bg-white px-2 py-1 rounded-md border border-slate-200 shadow-2xs">
             <span className="w-1.5 h-1.5 rounded-full bg-purple-900 animate-pulse" />
-            <span className="font-mono text-[10px]">Synced: {lastSyncedTime}</span>
+            <span className="font-mono">Synced: {lastSyncedTime}</span>
           </div>
         </div>
       </div>
 
-      {/* Metric Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      {/* Metric Cards Grid: 2 columns on mobile, 4 on desktop */}
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
         {metrics.map((m, idx) => (
-          <div key={idx} className="surface surface-hover p-3.5 rounded-lg space-y-2">
+          <div key={idx} className="surface surface-hover p-3 sm:p-3.5 rounded-xl space-y-1.5">
             <div className="flex items-center justify-between">
-              <div className="p-1.5 rounded-md bg-purple-100/70 border border-purple-200">
+              <div className="p-1 sm:p-1.5 rounded-md bg-purple-100/70 border border-purple-200">
                 {m.icon}
               </div>
-              <span className="text-[9px] font-mono font-semibold px-1.5 py-0.5 rounded border bg-purple-50 text-purple-950 border-purple-200">
+              <span className="text-[9px] font-mono font-semibold px-1.5 py-0.5 rounded border bg-purple-50 text-purple-950 border-purple-200 truncate max-w-[80px]">
                 {m.badge}
               </span>
             </div>
             <div>
-              <p className="text-[11px] font-medium text-slate-500">{m.title}</p>
-              <p className="text-xl font-display font-bold text-slate-900 tracking-tight mt-0.5">
+              <p className="text-[10px] sm:text-[11px] font-medium text-slate-500 truncate">{m.title}</p>
+              <p className="text-base sm:text-lg lg:text-xl font-display font-bold text-slate-900 tracking-tight mt-0.5">
                 {m.value}
               </p>
             </div>
           </div>
         ))}
       </div>
+
 
       {/* Visual Analytics Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">

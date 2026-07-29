@@ -124,17 +124,28 @@ const VoiceRecorder: React.FC<Props> = ({ onAudioChunk }) => {
       <button
         type="button"
         onClick={toggleRecording}
-        className={`w-full py-2 px-3 rounded-lg text-xs font-bold transition-all shadow-2xs flex items-center justify-center gap-2 cursor-pointer ${
+        className={`w-full py-2 px-3 rounded-lg text-xs font-bold transition-all shadow-2xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-[0.99] ${
           recording
             ? "bg-rose-600 hover:bg-rose-700 text-white animate-pulse"
             : "bg-purple-900 hover:bg-purple-950 text-white"
         }`}
       >
-        <svg className="w-4 h-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
+        <svg className="w-4 h-4 fill-none stroke-current stroke-2 shrink-0" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 003-3V4.5a3 3 0 10-6 0v8.25a3 3 0 003 3z" />
         </svg>
-        <span>{recording ? "Click to Stop & Dispatch Voice" : "Click to Start Voice Recording"}</span>
+        {recording ? (
+          <>
+            <span className="sm:hidden">Stop & Send</span>
+            <span className="hidden sm:inline">Click to Stop & Dispatch Voice</span>
+          </>
+        ) : (
+          <>
+            <span className="sm:hidden">Record Voice</span>
+            <span className="hidden sm:inline">Click to Start Voice Recording</span>
+          </>
+        )}
       </button>
+
     </div>
   );
 };

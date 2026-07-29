@@ -106,34 +106,34 @@ export const DispatchWorkspace: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Header Banner */}
-      <div className="surface p-6 rounded-xl bg-white border border-slate-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-2xs">
+      <div className="surface p-4 sm:p-5 rounded-xl bg-white border border-slate-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 shadow-2xs">
         <div>
-          <h2 className="text-xl font-bold text-slate-900 tracking-tight">Direct WhatsApp & Email Dispatch</h2>
-          <p className="text-xs font-medium text-slate-600 max-w-xl mt-1">
+          <h2 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">Direct WhatsApp & Email Dispatch</h2>
+          <p className="text-xs font-medium text-slate-600 max-w-xl mt-0.5">
             Send quotes, invoices, and payment reminders directly to your clients' WhatsApp or Email inbox.
           </p>
         </div>
-        <div className="flex items-center gap-2 bg-purple-50 px-3 py-1.5 rounded-lg border border-purple-200 text-xs font-bold text-purple-950">
+        <div className="flex items-center gap-2 bg-purple-50 px-2.5 py-1 rounded-lg border border-purple-200 text-xs font-bold text-purple-950 self-start md:self-auto shrink-0">
           <span className="w-2 h-2 rounded-full bg-purple-900 animate-pulse"></span>
-          <span>WhatsApp & Email Gateways Connected</span>
+          <span className="text-[11px] sm:text-xs">WhatsApp & Email Gateways Connected</span>
         </div>
       </div>
 
       {/* Main Dispatch Form & Live Preview */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
         {/* Send Form */}
-        <div className="lg:col-span-7 surface p-6 rounded-xl space-y-5 border border-slate-200 bg-white">
+        <div className="lg:col-span-7 surface p-4 sm:p-5 rounded-xl space-y-4 border border-slate-200 bg-white">
           <h3 className="font-bold text-slate-900 text-sm">Create New Dispatch</h3>
 
-          <form onSubmit={handleSendDispatch} className="space-y-4">
+          <form onSubmit={handleSendDispatch} className="space-y-3.5">
             {/* Channel Selection */}
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-2">Send Via Channel</label>
-              <div className="grid grid-cols-2 gap-3">
+              <label className="block text-xs font-semibold text-slate-700 mb-1.5">Send Via Channel</label>
+              <div className="grid grid-cols-2 gap-2.5">
                 <button
                   type="button"
                   onClick={() => setChannel("whatsapp")}
-                  className={`flex items-center justify-center gap-2 p-3 rounded-lg border text-xs font-bold transition-all ${
+                  className={`flex items-center justify-center gap-2 py-2 px-3 rounded-lg border text-xs font-bold transition-all ${
                     channel === "whatsapp"
                       ? "bg-purple-950 text-white border-purple-900 shadow-xs"
                       : "bg-white text-slate-700 border-slate-200 hover:bg-purple-50 hover:text-purple-950"
@@ -144,7 +144,7 @@ export const DispatchWorkspace: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setChannel("email")}
-                  className={`flex items-center justify-center gap-2 p-3 rounded-lg border text-xs font-bold transition-all ${
+                  className={`flex items-center justify-center gap-2 py-2 px-3 rounded-lg border text-xs font-bold transition-all ${
                     channel === "email"
                       ? "bg-purple-900 text-white border-purple-950 shadow-xs"
                       : "bg-white text-slate-700 border-slate-200 hover:bg-purple-50 hover:text-purple-950"
@@ -154,6 +154,7 @@ export const DispatchWorkspace: React.FC = () => {
                 </button>
               </div>
             </div>
+
 
             {/* Document Type */}
             <div>
@@ -229,7 +230,7 @@ export const DispatchWorkspace: React.FC = () => {
             <button
               type="submit"
               disabled={isSending}
-              className="w-full py-3 px-4 rounded-xl text-xs font-bold text-white bg-purple-950 hover:bg-purple-900 transition-all shadow-xs flex items-center justify-center gap-2"
+              className="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-white bg-purple-950 hover:bg-purple-900 transition-all shadow-xs flex items-center justify-center gap-2 active:scale-[0.99]"
             >
               {isSending ? (
                 <span>Sending Message...</span>
@@ -241,15 +242,15 @@ export const DispatchWorkspace: React.FC = () => {
         </div>
 
         {/* Live Message Preview Card */}
-        <div className="lg:col-span-5 surface p-6 rounded-xl space-y-4 border border-slate-200 bg-white flex flex-col justify-between">
+        <div className="lg:col-span-5 surface p-4 sm:p-5 rounded-xl space-y-3.5 border border-slate-200 bg-white flex flex-col justify-between">
           <div>
-            <h3 className="font-bold text-slate-900 text-sm mb-3">Live Client Preview</h3>
-            <div className="p-4 rounded-xl border border-purple-200 bg-purple-50/50 text-slate-800 text-xs space-y-2 shadow-2xs font-sans">
+            <h3 className="font-bold text-slate-900 text-sm mb-2.5">Live Client Preview</h3>
+            <div className="p-3.5 sm:p-4 rounded-xl border border-purple-200 bg-purple-50/50 text-slate-800 text-xs space-y-2 shadow-2xs font-sans">
               <div className="flex items-center justify-between border-b border-purple-200 pb-2">
                 <span className="font-bold text-purple-950 text-[11px]">
                   {channel === "whatsapp" ? "WhatsApp Message" : "Email Subject"}
                 </span>
-                <span className="text-[10px] font-mono text-purple-700">Operation One</span>
+                <span className="text-[10px] font-mono text-purple-700">Operator One</span>
               </div>
 
               <p className="font-semibold text-purple-950">
@@ -265,23 +266,51 @@ export const DispatchWorkspace: React.FC = () => {
               {notes && <p className="italic text-slate-600 bg-white p-2 rounded border border-purple-100 text-[11px]">"{notes}"</p>}
 
               <div className="pt-2 text-[10px] text-slate-500 border-t border-purple-200 flex justify-between">
-                <span>Recipient: {contact || "Not specified"}</span>
-                <span>Operation One Assistant</span>
+                <span className="truncate max-w-[150px]">Recipient: {contact || "Not specified"}</span>
+                <span className="shrink-0">Operator One</span>
               </div>
             </div>
           </div>
 
-          <div className="p-3 bg-purple-50 border border-purple-200 rounded-lg text-[11px] text-purple-950">
-            <span className="font-bold">Voice Tip:</span> You can also say{" "}
-            <span className="font-mono text-purple-900 font-semibold">"Send receipt to Fatima Ahmed via WhatsApp"</span> in the voice command bar.
+          <div className="p-2.5 bg-purple-50 border border-purple-200 rounded-lg text-[11px] text-purple-950">
+            <span className="font-bold">Voice Tip:</span> You can say{" "}
+            <span className="font-mono text-purple-900 font-semibold">"Send quote to Client via WhatsApp"</span>.
           </div>
         </div>
       </div>
 
       {/* Dispatch History Log */}
-      <div className="surface p-6 rounded-xl space-y-4 border border-slate-200 bg-white">
+      <div className="surface p-4 sm:p-5 rounded-xl space-y-3.5 border border-slate-200 bg-white">
         <h3 className="font-bold text-slate-900 text-sm">Recent Dispatch Log</h3>
-        <div className="overflow-x-auto">
+
+        {/* Mobile Responsive Cards (sm:hidden) */}
+        <div className="block sm:hidden space-y-2.5">
+          {history.length === 0 ? (
+            <div className="p-3 text-center text-xs text-slate-400">No dispatch logs found yet.</div>
+          ) : (
+            history.map((log) => (
+              <div key={log.id} className="p-3 bg-slate-50/70 border border-slate-200 rounded-xl space-y-1.5 text-xs">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono font-bold text-purple-950 text-xs">{log.recipient_name}</span>
+                  <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-purple-100 text-purple-950 border border-purple-200">
+                    {log.channel.toUpperCase()}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-[11px] text-slate-600">
+                  <span>{log.document_type}</span>
+                  <span className="font-mono font-bold text-slate-900">${log.amount.toLocaleString()}</span>
+                </div>
+                <div className="flex items-center justify-between pt-1 border-t border-slate-200/60 text-[10px]">
+                  <span className="font-mono text-slate-400">{log.recipient_contact}</span>
+                  <span className="font-mono text-emerald-700 font-semibold">{log.status} • {log.time}</span>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
+        {/* Desktop Table View (hidden sm:block) */}
+        <div className="hidden sm:block overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
               <tr className="border-b border-slate-200 text-slate-700 font-extrabold uppercase text-[10px] bg-slate-100/70">
@@ -320,6 +349,7 @@ export const DispatchWorkspace: React.FC = () => {
           </table>
         </div>
       </div>
+
     </div>
   );
 };

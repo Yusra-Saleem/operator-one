@@ -30,8 +30,10 @@ function MainApp() {
   const [activeTab, setActiveTab] = useState<string>("overview");
   const [showVoiceModal, setShowVoiceModal] = useState<boolean>(false);
   const [showAuthModal, setShowAuthModal] = useState<boolean>(false);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState<boolean>(false);
   const [agentOutput, setAgentOutput] = useState<AgentOutput | null>(null);
   const [isExecuting, setIsExecuting] = useState<boolean>(false);
+
 
   // Auth Form State for Landing Portal
   const [portalIsSignUp, setPortalIsSignUp] = useState(false);
@@ -331,30 +333,22 @@ function MainApp() {
       <Header
         onOpenVoiceModal={() => setShowVoiceModal(true)}
         onOpenAuthModal={() => setShowAuthModal(true)}
+        onToggleMobileSidebar={() => setIsMobileSidebarOpen(true)}
       />
 
       <div className="flex flex-1">
-        {/* Enterprise Collapsible Sidebar */}
-        <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+        {/* Enterprise Collapsible & Mobile Slide-Over Sidebar */}
+        <Sidebar
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          isMobileOpen={isMobileSidebarOpen}
+          onCloseMobile={() => setIsMobileSidebarOpen(false)}
+        />
+
 
         {/* Main Application Canvas */}
-        <main className="flex-1 min-w-0 px-3.5 py-4 sm:px-5 lg:px-6 space-y-4 max-w-7xl mx-auto w-full">
-          {/* Mobile Tab Strip */}
-          <nav className="md:hidden -mx-2 overflow-x-auto flex gap-1.5 pb-2 px-2 scrollbar-none" aria-label="Sections">
-            {mobileTabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`shrink-0 px-3 py-1 rounded-md text-xs font-medium transition-all ${
-                  activeTab === tab.id
-                    ? "bg-purple-950 text-white font-semibold shadow-xs"
-                    : "bg-white text-slate-600 border border-slate-200"
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </nav>
+        <main className="flex-1 min-w-0 px-3 py-3.5 pb-16 md:pb-4 sm:px-5 lg:px-6 space-y-3.5 max-w-7xl mx-auto w-full">
+
 
           {/* Voice Command Console */}
           <VoiceCommandBar onExecuteQuery={handleExecuteVoiceCommand} isExecuting={isExecuting} />
@@ -461,7 +455,72 @@ function MainApp() {
         </main>
       </div>
 
+      {/* Mobile Sticky Bottom Navigation Bar */}
+      <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 md:hidden flex justify-around items-center px-1 py-1.5 shadow-lg">
+        {[
+          {
+            id: "overview",
+            label: "Summary",
+            icon: (
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+              </svg>
+            ),
+          },
+          {
+            id: "sales",
+            label: "Sales",
+            icon: (
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5h16.5a1.5 1.5 0 011.5 1.5v9a1.5 1.5 0 01-1.5 1.5H3.75a1.5 1.5 0 01-1.5-1.5v-9a1.5 1.5 0 011.5-1.5z" />
+              </svg>
+            ),
+          },
+          {
+            id: "inventory",
+            label: "Stock",
+            icon: (
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+              </svg>
+            ),
+          },
+          {
+            id: "decision",
+            label: "AI Advice",
+            icon: (
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+              </svg>
+            ),
+          },
+          {
+            id: "analytics",
+            label: "Reports",
+            icon: (
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+              </svg>
+            ),
+          },
+        ].map((item) => (
+          <button
+            key={item.id}
+            onClick={() => setActiveTab(item.id)}
+            className={`flex flex-col items-center gap-0.5 px-3 py-1 rounded-lg transition-all ${
+              activeTab === item.id
+                ? "text-purple-950 font-bold scale-[1.05]"
+                : "text-slate-500 font-medium hover:text-slate-800"
+            }`}
+          >
+            {item.icon}
+            <span className="text-[10px] font-mono leading-none">{item.label}</span>
+          </button>
+        ))}
+      </nav>
+
       {/* Voice Interaction Modal HUD */}
+
       {showVoiceModal && (
         <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="surface bg-white rounded-2xl p-5 w-full max-w-2xl space-y-3 text-slate-900 shadow-2xl relative border border-slate-200">

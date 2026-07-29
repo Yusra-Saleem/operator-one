@@ -71,19 +71,25 @@ export const RevenueTrendChart: React.FC = () => {
 
   const baseDataset = timeframeDatasets[timeframe] || timeframeDatasets["7D"];
 
-  // Scale dataset dynamically using live MRR / pipeline values when available
+  // Scale dataset dynamically using live MRR / pipeline values when available; otherwise display $0
   const dataset = summaryData && summaryData.mrr > 0
     ? baseDataset.map((d, idx) => {
         const factor = 1 + (idx / baseDataset.length) * 0.15;
         const liveRev = Math.round((summaryData.mrr / (timeframe === "24H" ? 30 : timeframe === "7D" ? 4 : 1)) * factor);
         return {
           ...d,
-          revenue: liveRev > 0 ? liveRev : d.revenue,
+          revenue: liveRev > 0 ? liveRev : 0,
         };
       })
-    : baseDataset;
+    : baseDataset.map((d) => ({
+        ...d,
+        revenue: 0,
+        orders: 0,
+        growth: "0.0%",
+      }));
 
-  const maxVal = Math.max(...dataset.map((d) => d.revenue)) * 1.15;
+  const rawMax = Math.max(...dataset.map((d) => d.revenue));
+  const maxVal = rawMax > 0 ? rawMax * 1.15 : 1000;
 
   const height = 180;
   const width = 600;
@@ -91,6 +97,7 @@ export const RevenueTrendChart: React.FC = () => {
   const paddingRight = 16;
   const paddingTop = 20;
   const paddingBottom = 28;
+
 
   const chartWidth = width - paddingLeft - paddingRight;
   const chartHeight = height - paddingTop - paddingBottom;

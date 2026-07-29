@@ -115,44 +115,44 @@ export const IntegrationsWorkspace: React.FC = () => {
   return (
     <div className="space-y-6">
       <div className="surface p-5 sm:p-6 rounded-xl space-y-5">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 pb-4 gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 pb-3.5 gap-3">
           <div>
-            <h3 className="font-display font-bold text-base text-slate-900">Connected Business Apps</h3>
+            <h3 className="font-display font-bold text-sm text-slate-900">Connected Business Apps</h3>
             <p className="text-xs text-slate-500 mt-0.5">Connect Salesforce, NetSuite, QuickBooks, and webhooks to keep your business data in sync.</p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-1.5 self-start sm:self-auto">
             <button
               onClick={handleTestConnections}
-              className="px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold transition-all border border-slate-200"
+              className="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-md text-[11px] font-semibold transition-all border border-slate-200"
             >
               Test Connections
             </button>
             <button
               onClick={openNewModal}
-              className="px-3.5 py-1.5 bg-purple-900 hover:bg-purple-950 text-white rounded-lg text-xs font-semibold transition-all shadow-xs"
+              className="px-2.5 py-1 bg-purple-900 hover:bg-purple-950 text-white rounded-md text-[11px] font-semibold transition-all shadow-xs"
             >
-              + Connect Integration
+              + Connect App
             </button>
           </div>
         </div>
 
         {syncMessage && (
-          <div className="p-3 bg-purple-100 border border-purple-200 text-purple-950 text-xs rounded-md flex items-center justify-between font-medium">
-            <span>{syncMessage}</span>
-            <button onClick={() => setSyncMessage("")} className="font-bold text-slate-500 hover:text-slate-900">✕</button>
+          <div className="p-2.5 bg-purple-100 border border-purple-200 text-purple-950 text-xs rounded-md flex items-center justify-between font-medium">
+            <span className="leading-snug">{syncMessage}</span>
+            <button onClick={() => setSyncMessage("")} className="font-bold text-slate-500 hover:text-slate-900 ml-2 shrink-0">✕</button>
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
           {connectors.map((c, idx) => (
-            <div key={idx} className="p-4 bg-slate-50/50 border border-slate-200 rounded-lg space-y-3 hover:bg-white transition-all">
+            <div key={idx} className="p-3.5 sm:p-4 bg-slate-50/50 border border-slate-200 rounded-xl space-y-2.5 hover:bg-white transition-all">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                  <span className="font-bold text-sm text-slate-900">{c.name}</span>
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+                  <span className="font-bold text-xs sm:text-sm text-slate-900 truncate">{c.name}</span>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200 font-semibold">
+                <div className="flex items-center gap-1 shrink-0">
+                  <span className="text-[9px] uppercase font-mono px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200 font-semibold">
                     [{c.category}]
                   </span>
                   <button
@@ -176,18 +176,18 @@ export const IntegrationsWorkspace: React.FC = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 text-xs text-slate-500">
-                <div>Last Sync: <strong className="text-slate-800">{c.last_sync}</strong></div>
-                <div>Synced Records: <strong className="text-slate-800">{c.metrics_synced_count}</strong></div>
+              <div className="grid grid-cols-2 gap-2 text-[11px] sm:text-xs text-slate-500">
+                <div>Last Sync: <strong className="text-slate-800 font-mono text-[10px] sm:text-xs">{c.last_sync}</strong></div>
+                <div>Synced Records: <strong className="text-slate-800 font-mono text-[10px] sm:text-xs">{c.metrics_synced_count}</strong></div>
               </div>
 
-              <div className="flex items-center justify-between pt-2 border-t border-slate-200">
+              <div className="flex items-center justify-between pt-2 border-t border-slate-200/80">
                 <span className="text-[10px] text-emerald-700 font-semibold flex items-center gap-1 font-mono">
-                  ✓ {c.health_status} (API v58.0)
+                  ✓ {c.health_status}
                 </span>
                 <button
                   onClick={() => handleSyncConnector(c.name)}
-                  className="px-2.5 py-1 bg-purple-900 hover:bg-purple-950 text-white rounded text-[11px] font-medium transition-all shadow-2xs"
+                  className="px-2.5 py-1 bg-purple-900 hover:bg-purple-950 text-white rounded text-[10px] font-medium transition-all shadow-2xs"
                 >
                   Sync Now
                 </button>
@@ -195,6 +195,7 @@ export const IntegrationsWorkspace: React.FC = () => {
             </div>
           ))}
         </div>
+
       </div>
 
       {/* Add / Edit Integration Modal */}

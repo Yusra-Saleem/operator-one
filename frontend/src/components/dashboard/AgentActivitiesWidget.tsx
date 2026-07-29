@@ -77,16 +77,16 @@ export const AgentActivitiesWidget: React.FC = () => {
   };
 
   return (
-    <div className="surface p-5 sm:p-6 rounded-xl space-y-4">
+    <div className="surface p-4 sm:p-6 rounded-xl space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h3 className="font-display font-bold text-sm text-slate-900">AI Assistants Task History</h3>
           <p className="text-xs text-slate-500">See what your AI assistants are doing in real time and assign them new tasks.</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 self-start sm:self-auto">
           <button
             onClick={() => setShowTaskModal(true)}
-            className="px-3.5 py-1.5 bg-purple-900 hover:bg-purple-950 text-white rounded-md text-xs font-semibold transition-all shadow-2xs"
+            className="px-2.5 py-1 bg-purple-900 hover:bg-purple-950 text-white rounded-md text-[11px] font-semibold transition-all shadow-2xs"
           >
             Run Task
           </button>
@@ -98,13 +98,13 @@ export const AgentActivitiesWidget: React.FC = () => {
       </div>
 
       {/* Quick Agent Command Pills */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs">
-        <span className="text-slate-400 font-medium text-[11px] whitespace-nowrap">Quick Agent Actions:</span>
+      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs scrollbar-none">
+        <span className="text-slate-400 font-medium text-[10px] whitespace-nowrap shrink-0">Quick Agent Actions:</span>
         {quickAgentTasks.map((qt, idx) => (
           <button
             key={idx}
             onClick={() => handleRunTask(qt.agent, qt.prompt)}
-            className="px-2.5 py-1 bg-slate-50 hover:bg-purple-100 hover:text-purple-950 text-slate-700 rounded border border-slate-200 text-[11px] font-medium whitespace-nowrap transition-all"
+            className="px-2 py-0.5 bg-slate-50 hover:bg-purple-100 hover:text-purple-950 text-slate-700 rounded border border-slate-200 text-[10px] font-medium whitespace-nowrap transition-all shrink-0"
           >
             [{qt.agent}] {qt.label}
           </button>
@@ -116,22 +116,22 @@ export const AgentActivitiesWidget: React.FC = () => {
         {activities.map((act, idx) => (
           <div
             key={idx}
-            className="p-3.5 bg-slate-50/50 border border-slate-200 rounded-lg flex items-center justify-between text-xs hover:bg-white hover:border-purple-300 transition-all"
+            className="p-3 sm:p-3.5 bg-slate-50/50 border border-slate-200 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs hover:bg-white hover:border-purple-300 transition-all"
           >
-            <div className="flex items-center gap-3">
-              <div className="w-7 h-7 rounded-lg bg-purple-100 border border-purple-200 text-purple-950 font-mono text-[10px] font-bold flex items-center justify-center shrink-0">
+            <div className="flex items-start gap-2.5 min-w-0">
+              <div className="w-7 h-7 rounded-lg bg-purple-100 border border-purple-200 text-purple-950 font-mono text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">
                 AG
               </div>
-              <div className="space-y-0.5">
+              <div className="space-y-0.5 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="font-bold text-slate-900">{act.agent}</span>
+                  <span className="font-bold text-slate-900 text-xs">{act.agent}</span>
                   <span className="text-[10px] text-slate-400 font-mono">[{act.time}]</span>
                 </div>
-                <p className="text-slate-600">{act.action}</p>
+                <p className="text-slate-600 text-xs leading-snug">{act.action}</p>
               </div>
             </div>
             <span
-              className={`px-2.5 py-0.5 rounded text-[10px] font-mono font-semibold border ${
+              className={`px-2 py-0.5 rounded text-[10px] font-mono font-semibold border self-start sm:self-auto shrink-0 ${
                 act.status === "Active"
                   ? "bg-purple-100 text-purple-950 border-purple-200 animate-pulse"
                   : "bg-purple-100 text-purple-950 border-purple-200"
@@ -142,6 +142,7 @@ export const AgentActivitiesWidget: React.FC = () => {
           </div>
         ))}
       </div>
+
 
       {/* Custom Task Execution Modal */}
       {showTaskModal && (

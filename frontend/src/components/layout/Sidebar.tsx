@@ -6,6 +6,8 @@ import { useAuth } from "../../context/AuthContext";
 interface SidebarProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
+  isMobileOpen?: boolean;
+  onCloseMobile?: () => void;
 }
 
 interface NavItem {
@@ -20,9 +22,10 @@ interface NavGroup {
   items: NavItem[];
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, isMobileOpen = false, onCloseMobile }) => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
   const { user, signOut, isAuthenticated } = useAuth();
+
 
   const navGroups: NavGroup[] = [
     {
@@ -128,127 +131,241 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
   ];
 
   return (
-    <aside
-      className={`relative border-r border-slate-200 bg-white flex flex-col justify-between h-[calc(100vh-64px)] sticky top-16 hidden md:flex shrink-0 select-none transition-all duration-300 ease-in-out will-change-[width,padding] overflow-visible ${
-        isCollapsed ? "w-16 p-2" : "w-64 p-4"
-      }`}
-    >
-      {/* Integrated Rectangular Dark Edge Tab */}
-      <button
-        onClick={() => setIsCollapsed(!isCollapsed)}
-        title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
-        className="absolute -right-4 top-1/2 -translate-y-1/2 w-4 h-10 bg-purple-950 hover:bg-purple-900 text-purple-200 hover:text-white rounded-r-md flex items-center justify-center cursor-pointer shadow-xs z-30 transition-colors duration-200 border border-l-0 border-purple-900/60"
-      >
-        <svg
-          className={`w-3 h-3 transform transition-transform duration-300 ease-in-out ${
-            isCollapsed ? "rotate-180" : ""
-          }`}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={2.5}
-          viewBox="0 0 24 24"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-        </svg>
-      </button>
+    <>
+      {/* Mobile Slide-Over Drawer Backdrop & Container */}
+      {isMobileOpen && (
+        <div className="fixed inset-0 z-50 md:hidden flex">
+          {/* Backdrop Overlay */}
+          <div
+            onClick={onCloseMobile}
+            className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity animate-fade-in"
+          />
 
-      <div className="space-y-5 overflow-y-auto overflow-x-hidden scrollbar-none">
-        {navGroups.map((group) => (
-          <div key={group.title}>
-            <p
-              className={`px-3 mb-2 text-[10px] font-extrabold tracking-wider uppercase text-slate-600 font-mono whitespace-nowrap overflow-hidden transition-all duration-200 ${
-                isCollapsed ? "opacity-0 h-0 mb-0 pointer-events-none" : "opacity-100 h-auto"
-              }`}
-            >
-              {group.title}
-            </p>
-            <div className="space-y-1.5">
-              {group.items.map((item) => {
-                const active = activeTab === item.id;
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => setActiveTab(item.id)}
-                    title={isCollapsed ? item.label : undefined}
-                    className={`flex items-center rounded-lg text-xs transition-all duration-200 ${
-                      isCollapsed
-                        ? "w-10 h-10 justify-center mx-auto my-0.5"
-                        : "w-full justify-between px-3 py-2"
-                    } ${
-                      active
-                        ? "bg-purple-950 text-white font-bold shadow-xs"
-                        : "text-slate-700 font-semibold hover:bg-purple-50 hover:text-purple-950"
-                    }`}
-                  >
-                    <div className="flex items-center gap-2.5 overflow-hidden min-w-0">
-                      <span className={`shrink-0 ${active ? "text-purple-300" : "text-slate-500"}`}>
-                        {item.icon}
-                      </span>
-                      {!isCollapsed && (
-                        <span className="whitespace-nowrap overflow-hidden truncate">
-                          {item.label}
-                        </span>
-                      )}
-                    </div>
-
-                    {!isCollapsed && item.badge && (
-                      <span
-                        className={`text-[9px] font-mono font-semibold px-1.5 py-0.5 rounded-full shrink-0 whitespace-nowrap ${
-                          active
-                            ? "bg-purple-800 text-purple-100"
-                            : "bg-purple-100 text-purple-950 border border-purple-200"
-                        }`}
-                      >
-                        {item.badge}
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Sidebar Bottom Footer: Sign Out Action Button */}
-      <div className="pt-3 border-t border-slate-200 overflow-hidden">
-        {isAuthenticated && user ? (
-          <button
-            onClick={signOut}
-            title={isCollapsed ? `Sign Out (${user.name})` : "Sign Out Account"}
-            className={`w-full flex items-center rounded-lg text-xs font-medium transition-all duration-200 text-slate-600 hover:bg-rose-50 hover:text-rose-700 hover:border-rose-200 border border-transparent ${
-              isCollapsed
-                ? "w-10 h-10 justify-center mx-auto"
-                : "justify-between px-3 py-2 bg-slate-50 border-slate-200"
-            }`}
-          >
-            <div className="flex items-center gap-2.5 overflow-hidden min-w-0">
-              <svg className="w-4 h-4 shrink-0 text-slate-400 group-hover:text-rose-600" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l3 3m0 0l-3 3m3-3H2.25" />
-              </svg>
-              {!isCollapsed && (
-                <div className="text-left overflow-hidden min-w-0">
-                  <p className="font-semibold text-slate-800 text-[11px] truncate leading-tight">{user.name}</p>
-                  <p className="text-[9px] text-slate-400 font-mono truncate">Sign Out</p>
+          {/* Drawer Menu */}
+          <aside className="relative w-72 max-w-[85vw] bg-white h-full flex flex-col justify-between p-4 shadow-2xl z-50 overflow-y-auto">
+            {/* Drawer Header */}
+            <div className="flex items-center justify-between pb-3 border-b border-slate-200">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-purple-950 text-white font-display font-bold flex items-center justify-center text-sm shadow-xs">
+                  O<span className="text-purple-300">1</span>
                 </div>
+                <div>
+                  <h3 className="font-display font-bold text-sm text-slate-900">OPERATOR ONE</h3>
+                  <p className="text-[10px] text-slate-500 font-mono">Enterprise Navigation</p>
+                </div>
+              </div>
+              <button
+                onClick={onCloseMobile}
+                className="p-1 rounded-md text-slate-400 hover:text-slate-900 hover:bg-slate-100 transition-colors"
+                title="Close Menu"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Nav Groups */}
+            <div className="space-y-5 my-4 flex-1 overflow-y-auto scrollbar-none">
+              {navGroups.map((group) => (
+                <div key={group.title}>
+                  <p className="px-3 mb-2 text-[10px] font-extrabold tracking-wider uppercase text-slate-600 font-mono">
+                    {group.title}
+                  </p>
+                  <div className="space-y-1">
+                    {group.items.map((item) => {
+                      const active = activeTab === item.id;
+                      return (
+                        <button
+                          key={item.id}
+                          onClick={() => {
+                            setActiveTab(item.id);
+                            onCloseMobile?.();
+                          }}
+                          className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs transition-all ${
+                            active
+                              ? "bg-purple-950 text-white font-bold shadow-xs"
+                              : "text-slate-700 font-semibold hover:bg-purple-50 hover:text-purple-950"
+                          }`}
+                        >
+                          <div className="flex items-center gap-2.5 overflow-hidden">
+                            <span className={active ? "text-purple-300" : "text-slate-500"}>
+                              {item.icon}
+                            </span>
+                            <span className="truncate">{item.label}</span>
+                          </div>
+                          {item.badge && (
+                            <span
+                              className={`text-[9px] font-mono font-semibold px-1.5 py-0.5 rounded-full shrink-0 ${
+                                active
+                                  ? "bg-purple-800 text-purple-100"
+                                  : "bg-purple-100 text-purple-950 border border-purple-200"
+                              }`}
+                            >
+                              {item.badge}
+                            </span>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Mobile Footer Auth */}
+            <div className="pt-3 border-t border-slate-200">
+              {isAuthenticated && user ? (
+                <button
+                  onClick={() => {
+                    signOut();
+                    onCloseMobile?.();
+                  }}
+                  className="w-full flex items-center justify-between px-3 py-2 bg-rose-50 text-rose-700 border border-rose-200 rounded-lg text-xs font-semibold hover:bg-rose-100 transition-all"
+                >
+                  <span>Sign Out ({user.name})</span>
+                  <span className="text-[10px] font-mono uppercase">Exit</span>
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    window.location.reload();
+                    onCloseMobile?.();
+                  }}
+                  className="w-full py-2 bg-purple-950 text-white text-xs font-semibold rounded-lg shadow-xs"
+                >
+                  Sign In
+                </button>
               )}
             </div>
-            {!isCollapsed && (
-              <span className="text-[10px] font-mono text-slate-400 font-semibold uppercase">
-                Exit
-              </span>
-            )}
-          </button>
-        ) : (
-          <button
-            onClick={() => window.location.reload()}
-            title="Sign In"
-            className="w-full flex items-center justify-center p-2 text-xs font-semibold text-purple-950 bg-purple-100 hover:bg-purple-200 rounded-lg transition-all"
+          </aside>
+        </div>
+      )}
+
+      {/* Desktop Persistent Collapsible Sidebar */}
+      <aside
+        className={`relative border-r border-slate-200 bg-white flex flex-col justify-between h-[calc(100vh-64px)] sticky top-16 hidden md:flex shrink-0 select-none transition-all duration-300 ease-in-out will-change-[width,padding] overflow-visible ${
+          isCollapsed ? "w-16 p-2" : "w-64 p-4"
+        }`}
+      >
+        {/* Integrated Rectangular Dark Edge Tab */}
+        <button
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+          className="absolute -right-4 top-1/2 -translate-y-1/2 w-4 h-10 bg-purple-950 hover:bg-purple-900 text-purple-200 hover:text-white rounded-r-md flex items-center justify-center cursor-pointer shadow-xs z-30 transition-colors duration-200 border border-l-0 border-purple-900/60"
+        >
+          <svg
+            className={`w-3 h-3 transform transition-transform duration-300 ease-in-out ${
+              isCollapsed ? "rotate-180" : ""
+            }`}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2.5}
+            viewBox="0 0 24 24"
           >
-            Sign In
-          </button>
-        )}
-      </div>
-    </aside>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+          </svg>
+        </button>
+
+        <div className="space-y-5 overflow-y-auto overflow-x-hidden scrollbar-none">
+          {navGroups.map((group) => (
+            <div key={group.title}>
+              <p
+                className={`px-3 mb-2 text-[10px] font-extrabold tracking-wider uppercase text-slate-600 font-mono whitespace-nowrap overflow-hidden transition-all duration-200 ${
+                  isCollapsed ? "opacity-0 h-0 mb-0 pointer-events-none" : "opacity-100 h-auto"
+                }`}
+              >
+                {group.title}
+              </p>
+              <div className="space-y-1.5">
+                {group.items.map((item) => {
+                  const active = activeTab === item.id;
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => setActiveTab(item.id)}
+                      title={isCollapsed ? item.label : undefined}
+                      className={`flex items-center rounded-lg text-xs transition-all duration-200 ${
+                        isCollapsed
+                          ? "w-10 h-10 justify-center mx-auto my-0.5"
+                          : "w-full justify-between px-3 py-2"
+                      } ${
+                        active
+                          ? "bg-purple-950 text-white font-bold shadow-xs"
+                          : "text-slate-700 font-semibold hover:bg-purple-50 hover:text-purple-950"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5 overflow-hidden min-w-0">
+                        <span className={`shrink-0 ${active ? "text-purple-300" : "text-slate-500"}`}>
+                          {item.icon}
+                        </span>
+                        {!isCollapsed && (
+                          <span className="whitespace-nowrap overflow-hidden truncate">
+                            {item.label}
+                          </span>
+                        )}
+                      </div>
+
+                      {!isCollapsed && item.badge && (
+                        <span
+                          className={`text-[9px] font-mono font-semibold px-1.5 py-0.5 rounded-full shrink-0 whitespace-nowrap ${
+                            active
+                              ? "bg-purple-800 text-purple-100"
+                              : "bg-purple-100 text-purple-950 border border-purple-200"
+                          }`}
+                        >
+                          {item.badge}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Sidebar Bottom Footer: Sign Out Action Button */}
+        <div className="pt-3 border-t border-slate-200 overflow-hidden">
+          {isAuthenticated && user ? (
+            <button
+              onClick={signOut}
+              title={isCollapsed ? `Sign Out (${user.name})` : "Sign Out Account"}
+              className={`w-full flex items-center rounded-lg text-xs font-medium transition-all duration-200 text-slate-600 hover:bg-rose-50 hover:text-rose-700 hover:border-rose-200 border border-transparent ${
+                isCollapsed
+                  ? "w-10 h-10 justify-center mx-auto"
+                  : "justify-between px-3 py-2 bg-slate-50 border-slate-200"
+              }`}
+            >
+              <div className="flex items-center gap-2.5 overflow-hidden min-w-0">
+                <svg className="w-4 h-4 shrink-0 text-slate-400 group-hover:text-rose-600" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l3 3m0 0l-3 3m3-3H2.25" />
+                </svg>
+                {!isCollapsed && (
+                  <div className="text-left overflow-hidden min-w-0">
+                    <p className="font-semibold text-slate-800 text-[11px] truncate leading-tight">{user.name}</p>
+                    <p className="text-[9px] text-slate-400 font-mono truncate">Sign Out</p>
+                  </div>
+                )}
+              </div>
+              {!isCollapsed && (
+                <span className="text-[10px] font-mono text-slate-400 font-semibold uppercase">
+                  Exit
+                </span>
+              )}
+            </button>
+          ) : (
+            <button
+              onClick={() => window.location.reload()}
+              title="Sign In"
+              className="w-full flex items-center justify-center p-2 text-xs font-semibold text-purple-950 bg-purple-100 hover:bg-purple-200 rounded-lg transition-all"
+            >
+              Sign In
+            </button>
+          )}
+        </div>
+      </aside>
+    </>
   );
 };
+
