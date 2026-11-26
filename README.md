@@ -1,57 +1,65 @@
----
-title: Operator One Voice AI Backend
-emoji: ⚡
-colorFrom: purple
-colorTo: indigo
-sdk: docker
-app_port: 7860
----
+# Operator One Task Routing Engine
 
-# Operation One — Enterprise Voice AI Business Operations Platform
+> Autonomous task routing and dispatch engine for enterprise workflow automation, multi-agent workload balancing, and lifecycle orchestration.
 
-**Operation One** is a commercial-grade, voice-first business operations manager powered by FastAPI, Supabase, and the official OpenAI Agents SDK.
+## 1. System Overview
 
----
+Operator One is an autonomous task routing and job dispatching engine built to orchestrate enterprise workflows across distributed agents. It evaluates incoming tasks, extracts domain requirements, matches jobs against available agent capabilities, and manages end-to-end task execution lifecycles with automated error recovery.
 
-## Key Features
+## 2. Technical Architecture
 
-- **Light-Theme Executive Command Center**: Clean White (`bg-white`) & Purple (`purple-600`) design language.
-- **Voice AI Operations Hub**: Integrated speech interaction HUD powered by OpenAI Agents SDK.
-- **Explainable AI Decision Engine**: Telemetry risk scoring (0-100), stock-out forecasting, deal stagnation analysis, and grounded recommendations.
-- **Enterprise Integrations Framework**: Standardized connectors for Salesforce CRM, NetSuite ERP, QuickBooks Accounting, and Event Webhooks.
-- **Supabase Auth & PostgreSQL**: Complete JWT user identity management and relational database storage.
-- **Multi-Agent Collaboration Engine**: Domain tool registry supporting Coordinator, Executive, Sales, Inventory, and Reporting agents.
-
----
-
-## Technical Stack
-
-- **Frontend**: Next.js 14, React 18, Tailwind CSS (Light Theme + Purple Accent), TypeScript.
-- **Backend**: FastAPI, Python 3.11, Pydantic v2, Uvicorn, SQLAlchemy.
-- **Database & Auth**: Supabase PostgreSQL, Supabase Auth.
-- **AI Engine**: OpenAI Agents SDK, Python Multi-Agent Framework.
-
----
-
-## Quick Start
-
-### Backend
-```bash
-cd backend
-pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8000
+```
+[ Enterprise Task Ingestion ]
+        │
+        ▼
+[ Operator One Routing Core ]
+        │
+        ├──▶ [ Capability Matcher & Load Balancer ]
+        ├──▶ [ Autonomous Agent Dispatcher ]
+        └──▶ [ Lifecycle Monitor & Error Recovery Circuit ]
 ```
 
-Copy `backend/.env.example` to `backend/.env` and fill in all secrets before
-starting the backend. Text commands use the official Agents SDK `Agent`/`Runner`;
-voice turns use the SDK `AudioInput`/`VoicePipeline` with the persistent
-Operation One voice workflow and are returned as streamed audio over SSE.
+### Technology Stack
+- **Architecture:** Full-Stack Containerized Microservices
+- **Frontend:** Next.js, React, Tailwind CSS Dashboard
+- **Backend:** Node.js / FastAPI Service Layer
+- **Reverse Proxy:** NGINX (`nginx.conf`)
+- **Orchestration:** Docker Compose (`docker-compose.yml`)
 
-### Frontend
-```bash
-cd frontend
-npm install
-npm run dev
+## 3. Core Functional Capabilities
+
+- **Intelligent Capability Matching:** Evaluates task requirements (text parsing, data analysis, API dispatch) and assigns workloads to specialized agents.
+- **Workload Balancing:** Prevents agent saturation through real-time concurrency tracking and dynamic queue throttling.
+- **Failure Recovery Circuit:** Automated retries with exponential backoff and fallback routing to secondary human/agent supervisors.
+- **Operational Dashboard:** Real-time visual metrics tracking active dispatches, completed workflows, and system throughput.
+
+## 4. Directory Structure
+
+```
+operator-one/
+├── backend/                  # Dispatch API and routing service logic
+├── frontend/                 # Interactive operations monitoring console
+├── docs/                     # Architectural specifications and diagrams
+├── docker-compose.yml        # Multi-container local orchestration
+├── nginx.conf                # Ingress reverse proxy configuration
+└── package.json              # Dependency manifests
 ```
 
-Visit `http://localhost:3000` to access the Executive Operations Command Center.
+## 5. Getting Started
+
+### Docker Deployment
+
+```bash
+git clone https://github.com/Yusra-Saleem/operator-one.git
+cd operator-one
+
+docker-compose up --build
+```
+
+Access the Operator One console at [http://localhost:8080](http://localhost:8080).
+
+## 6. Author and License
+
+- **Author:** Yusra Saleem
+- **Portfolio:** [yusrasaleem.dev](https://yusrasaleem.dev)
+- **License:** Licensed under the [MIT License](LICENSE).
