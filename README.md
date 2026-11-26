@@ -47,8 +47,6 @@ operator-one/
 
 ## 5. Getting Started
 
-### Docker Deployment
-
 ```bash
 git clone https://github.com/Yusra-Saleem/operator-one.git
 cd operator-one
